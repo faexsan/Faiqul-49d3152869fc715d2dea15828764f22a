@@ -23,14 +23,14 @@
 			
 		function chekcLogin(){
 			var username = decodeURIComponent(document.cookie);
+			console.log(username);
 			var url = baseUrl+"/back-end/check.php?username="+username;
 				
 			$.getJSON(url, function( data ) {
 				var result = data.data;
 				console.log(result);
-				if(result==null){
-					console.log("data null");
-					window.location.href = $baseUrl+"/front-end/login.html";
+				if(result.username == null){
+					window.location.href = baseUrl+"/front-end/login.html";
 				}else{
 					var username = result.username;
 					var lastLogin = result.last_login;
