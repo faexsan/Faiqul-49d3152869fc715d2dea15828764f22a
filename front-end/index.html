@@ -1,0 +1,55 @@
+<html>
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<head>
+		<script>
+		var baseUrl = "http://localhost";
+		
+		function startTime() {
+			var currentTime = new Date();
+			var h = currentTime.getHours();
+			var m = currentTime.getMinutes();
+			var s = currentTime.getSeconds();
+			m = checkTime(m);
+			s = checkTime(s);
+	
+			$("#currentTime").text(h + ":" + m + ":" + s);
+			var t = setTimeout(startTime, 500);
+		}
+			
+		function checkTime(i) {
+			if (i < 10) {i = "0" + i};
+			return i;
+		}
+			
+		function chekcLogin(){
+			var username = decodeURIComponent(document.cookie);
+			var url = baseUrl+"/back-end/check.php?username="+username;
+				
+			$.getJSON(url, function( data ) {
+				var result = data.data;
+				console.log(result);
+				if(result==null){
+					console.log("data null");
+					window.location.href = $baseUrl+"/front-end/login.html";
+				}else{
+					var username = result.username;
+					var lastLogin = result.last_login;
+					alert("Hai "+username+", waktu login anda "+lastLogin);
+				}
+			});
+		}
+
+		</script>
+		<style>
+			body 		{background-color: powderblue; margin: 0 auto; text-align: center;}
+			h1   		{color: blue;}
+			p    		{color: black;}
+			#currentTime{text-align: center; font-size: 24px; margin:20px 0;}
+			#hello		{background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;}
+		</style>
+	</head>
+	<body onload="startTime()">
+		<div id="currentTime"></div>
+		<button id="hello" onclick="chekcLogin()">hello</button>
+	</body>
+</html>
